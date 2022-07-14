@@ -64,12 +64,12 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="bootstrap.servers" elementType="Argument">
                 <stringProp name="Argument.name">bootstrap.servers</stringProp>
-                <stringProp name="Argument.value">$zookeeper_host:$zookeeper_port</stringProp>
+                <stringProp name="Argument.value">$kafka_host:$kafka_port</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="zookeeper.servers" elementType="Argument">
                 <stringProp name="Argument.name">zookeeper.servers</stringProp>
-                <stringProp name="Argument.value">$kafka_host:$kafka_port</stringProp>
+                <stringProp name="Argument.value">$zookeeper_host:$zookeeper_port</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="kafka.topic.name" elementType="Argument">
