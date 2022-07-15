@@ -8,14 +8,9 @@
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments">
-          <elementProp name="KAFKA_HOST" elementType="Argument">
-            <stringProp name="Argument.name">KAFKA_HOST</stringProp>
-            <stringProp name="Argument.value">${__env(KAFKA_SERVICE_SERVICE_HOST)}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="ZOOKEEPER_HOST" elementType="Argument">
-            <stringProp name="Argument.name">ZOOKEEPER_HOST</stringProp>
-            <stringProp name="Argument.value">${__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}</stringProp>
+          <elementProp name="MESSAGE_LENGTH" elementType="Argument">
+            <stringProp name="Argument.name">MESSAGE_LENGTH</stringProp>
+            <stringProp name="Argument.value">256</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -25,13 +20,11 @@
     <hashTree>
       <com.gslab.pepper.config.plaintext.PlainTextConfigElement guiclass="TestBeanGUI" testclass="com.gslab.pepper.config.plaintext.PlainTextConfigElement" testname="Pepper-Box PlainText Config" enabled="true">
         <stringProp name="jsonSchema">{
-
-	&quot;messageID&quot;:{{SEQUENCE(&quot;messageId&quot;,1,1)}},
-	&quot;messageBody&quot;:&quot;{{RANDOM_ALPHA_NUMERIC(&quot;abcedefghijklmnopqrwxyzABCDEFGHIJKLMNOPQRWXYZ&quot;, 100)}}&quot;,		
-	&quot;messageCategory&quot;:&quot;{{RANDOM_STRING(&quot;Finance&quot;, &quot;Insurance&quot;, &quot;Healthcare&quot;, &quot;Shares&quot;)}}&quot;,
-	&quot;messageStatus&quot;:&quot;{{RANDOM_STRING(&quot;Accepted&quot;,&quot;Pending&quot;,&quot;Processing&quot;,&quot;Rejected&quot;)}}&quot;,
+	&quot;messageId&quot;:{{SEQUENCE(&quot;messageId&quot;,1,1)}},
+	&quot;messageBody&quot;:{{&quot;${__RandomString(${MESSAGE_LENGTH}, abc)}&quot;}},
 	&quot;messageTime&quot;:{{TIMESTAMP()}}
-}</stringProp>
+}
+</stringProp>
         <stringProp name="placeHolder">MESSAGE</stringProp>
       </com.gslab.pepper.config.plaintext.PlainTextConfigElement>
       <hashTree/>
@@ -39,7 +32,7 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
+          <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">1</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
@@ -54,12 +47,12 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="bootstrap.servers" elementType="Argument">
                 <stringProp name="Argument.name">bootstrap.servers</stringProp>
-                <stringProp name="Argument.value">KAFKA_HOST:9092</stringProp>
+                <stringProp name="Argument.value">10.104.65.193:9092</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="zookeeper.servers" elementType="Argument">
                 <stringProp name="Argument.name">zookeeper.servers</stringProp>
-                <stringProp name="Argument.value">ZOOKEEPER_HOST:2181</stringProp>
+                <stringProp name="Argument.value">10.106.58.170:2181</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="kafka.topic.name" elementType="Argument">
@@ -84,7 +77,7 @@
               </elementProp>
               <elementProp name="batch.size" elementType="Argument">
                 <stringProp name="Argument.name">batch.size</stringProp>
-                <stringProp name="Argument.value">16384</stringProp>
+                <stringProp name="Argument.value">3906250</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="linger.ms" elementType="Argument">
