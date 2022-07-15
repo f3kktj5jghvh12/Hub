@@ -7,7 +7,18 @@
       <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
       <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-        <collectionProp name="Arguments.arguments"/>
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="kafka_host" elementType="Argument">
+            <stringProp name="Argument.name">kafka_host</stringProp>
+            <stringProp name="Argument.value">${__env($KAFKA_SERVICE_SERVICE_HOST)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="zookeeper_host" elementType="Argument">
+            <stringProp name="Argument.name">zookeeper_host</stringProp>
+            <stringProp name="Argument.value">${__env($ZOOKEEPER_SERVICE_SERVICE_HOST)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
       </elementProp>
       <stringProp name="TestPlan.user_define_classpath">C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\apache-jmeter-5.5\lib\kafka-clients-3.2.0.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\apache-jmeter-5.5\lib\ext\pepper-box-1.0.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\apache-jmeter-5.5\lib\ext\jmeter-plugins-functions-2.1.jar</stringProp>
     </TestPlan>
@@ -43,12 +54,12 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="bootstrap.servers" elementType="Argument">
                 <stringProp name="Argument.name">bootstrap.servers</stringProp>
-                <stringProp name="Argument.value">$KAFKA_SERVICE_SERVICE_HOST:9092</stringProp>
+                <stringProp name="Argument.value">$kafka_host:9092</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="zookeeper.servers" elementType="Argument">
                 <stringProp name="Argument.name">zookeeper.servers</stringProp>
-                <stringProp name="Argument.value">$ZOOKEEPER_SERVICE_SERVICE_HOST:2181</stringProp>
+                <stringProp name="Argument.value">$zookeeper_host:2181</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="kafka.topic.name" elementType="Argument">
