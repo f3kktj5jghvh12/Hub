@@ -13,16 +13,6 @@
             <stringProp name="Argument.value">256</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="kafka_host" elementType="Argument">
-            <stringProp name="Argument.name">kafka_host</stringProp>
-            <stringProp name="Argument.value">${__env(KAFKA_SERVICE_SERVICE_HOST)}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="zookeeper_host" elementType="Argument">
-            <stringProp name="Argument.name">zookeeper_host</stringProp>
-            <stringProp name="Argument.value">${__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
         </collectionProp>
       </elementProp>
       <stringProp name="TestPlan.user_define_classpath">C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\jmeter-plugins-functions-2.1.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\pepper-box-1.0.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\kafka-clients-3.2.0.jar</stringProp>
@@ -57,12 +47,12 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="bootstrap.servers" elementType="Argument">
                 <stringProp name="Argument.name">bootstrap.servers</stringProp>
-                <stringProp name="Argument.value">${kafka_host}:9092</stringProp>
+                <stringProp name="Argument.value">10.107.249.157:9092</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="zookeeper.servers" elementType="Argument">
                 <stringProp name="Argument.name">zookeeper.servers</stringProp>
-                <stringProp name="Argument.value">${zookeeper_host}:2181</stringProp>
+                <stringProp name="Argument.value">10.106.58.170:2181</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="kafka.topic.name" elementType="Argument">
