@@ -13,16 +13,6 @@
             <stringProp name="Argument.value">256</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="KAFKA_CONNECTION_STRING" elementType="Argument">
-            <stringProp name="Argument.name">KAFKA_CONNECTION_STRING</stringProp>
-            <stringProp name="Argument.value">&quot;${__env(KAFKA_SERVICE_SERVICE_HOST)}:9092&quot;</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="ZOOKEEPER_CONNECTION_STRING" elementType="Argument">
-            <stringProp name="Argument.name">ZOOKEEPER_CONNECTION_STRING</stringProp>
-            <stringProp name="Argument.value">&quot;${__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}:2181&quot;</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
         </collectionProp>
       </elementProp>
       <stringProp name="TestPlan.user_define_classpath">C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\apache-jmeter-5.5\lib\ext\jmeter-plugins-functions-2.1.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\apache-jmeter-5.5\lib\ext\pepper-box-1.0.jar</stringProp>
@@ -56,12 +46,12 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="bootstrap.servers" elementType="Argument">
                 <stringProp name="Argument.name">bootstrap.servers</stringProp>
-                <stringProp name="Argument.value">${KAFKA_CONNECTION_STRING}</stringProp>
+                <stringProp name="Argument.value">${__env(KAFKA_SERVICE_SERVICE_HOST)}:9092</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="zookeeper.servers" elementType="Argument">
                 <stringProp name="Argument.name">zookeeper.servers</stringProp>
-                <stringProp name="Argument.value">${ZOOKEEPER_CONNECTION_STRING}</stringProp>
+                <stringProp name="Argument.value">${__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}:2181</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="kafka.topic.name" elementType="Argument">
