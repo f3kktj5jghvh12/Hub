@@ -13,6 +13,16 @@
             <stringProp name="Argument.value">256</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="KAFKA_HOST" elementType="Argument">
+            <stringProp name="Argument.name">KAFKA_HOST</stringProp>
+            <stringProp name="Argument.value">${__env(KAFKA_SERVICE_SERVICE_HOST)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="ZOOKEEPER_HOST" elementType="Argument">
+            <stringProp name="Argument.name">ZOOKEEPER_HOST</stringProp>
+            <stringProp name="Argument.value">${__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </elementProp>
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
@@ -46,12 +56,12 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="bootstrap.servers" elementType="Argument">
                 <stringProp name="Argument.name">bootstrap.servers</stringProp>
-                <stringProp name="Argument.value">${__env(KAFKA_SERVICE_SERVICE_HOST)}:9092</stringProp>
+                <stringProp name="Argument.value">${KAFKA_HOST}:9092</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="zookeeper.servers" elementType="Argument">
                 <stringProp name="Argument.name">zookeeper.servers</stringProp>
-                <stringProp name="Argument.value">${__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}:2181</stringProp>
+                <stringProp name="Argument.value">${ZOOKEEPER_HOST}:2181</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="kafka.topic.name" elementType="Argument">
@@ -138,43 +148,6 @@
           </elementProp>
           <stringProp name="classname">com.gslab.pepper.sampler.PepperBoxKafkaSampler</stringProp>
         </JavaSampler>
-        <hashTree/>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
-          <boolProp name="ResultCollector.error_logging">false</boolProp>
-          <objProp>
-            <name>saveConfig</name>
-            <value class="SampleSaveConfiguration">
-              <time>true</time>
-              <latency>true</latency>
-              <timestamp>true</timestamp>
-              <success>true</success>
-              <label>true</label>
-              <code>true</code>
-              <message>true</message>
-              <threadName>true</threadName>
-              <dataType>true</dataType>
-              <encoding>false</encoding>
-              <assertions>true</assertions>
-              <subresults>true</subresults>
-              <responseData>false</responseData>
-              <samplerData>false</samplerData>
-              <xml>false</xml>
-              <fieldNames>true</fieldNames>
-              <responseHeaders>false</responseHeaders>
-              <requestHeaders>false</requestHeaders>
-              <responseDataOnError>false</responseDataOnError>
-              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
-              <assertionsResultsToSave>0</assertionsResultsToSave>
-              <bytes>true</bytes>
-              <sentBytes>true</sentBytes>
-              <url>true</url>
-              <threadCounts>true</threadCounts>
-              <idleTime>true</idleTime>
-              <connectTime>true</connectTime>
-            </value>
-          </objProp>
-          <stringProp name="filename"></stringProp>
-        </ResultCollector>
         <hashTree/>
       </hashTree>
     </hashTree>
