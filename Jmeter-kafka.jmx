@@ -15,7 +15,7 @@
           </elementProp>
           <elementProp name="kafka_host" elementType="Argument">
             <stringProp name="Argument.name">kafka_host</stringProp>
-            <stringProp name="Argument.value">10.106.69.213</stringProp>
+            <stringProp name="Argument.value">${__env(KAFKA_SERVICE_SERVICE_HOST)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="zookeeper_host" elementType="Argument">
