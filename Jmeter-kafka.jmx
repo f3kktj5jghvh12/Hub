@@ -20,7 +20,17 @@
           </elementProp>
           <elementProp name="zookeeper_host" elementType="Argument">
             <stringProp name="Argument.name">zookeeper_host</stringProp>
-            <stringProp name="Argument.value">10.106.58.170</stringProp>
+            <stringProp name="Argument.value">${__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="kafka_port" elementType="Argument">
+            <stringProp name="Argument.name">kafka_port</stringProp>
+            <stringProp name="Argument.value">${__env(KAFKA_SERVICE_SERVICE_PORT)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="zookeeper_port" elementType="Argument">
+            <stringProp name="Argument.name">zookeeper_port</stringProp>
+            <stringProp name="Argument.value">${__env(ZOOKEEPER_SERVICE_SERVICE_PORT)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -42,7 +52,7 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <intProp name="LoopController.loops">-1</intProp>
+          <stringProp name="LoopController.loops">3906250</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">1</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
@@ -57,12 +67,12 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="bootstrap.servers" elementType="Argument">
                 <stringProp name="Argument.name">bootstrap.servers</stringProp>
-                <stringProp name="Argument.value">${kafka_host}:9092</stringProp>
+                <stringProp name="Argument.value">${kafka_host}:${kafka_port}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="zookeeper.servers" elementType="Argument">
                 <stringProp name="Argument.name">zookeeper.servers</stringProp>
-                <stringProp name="Argument.value">${zookeeper_host}:2181</stringProp>
+                <stringProp name="Argument.value">${zookeeper_host}:${zookeeper_port}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="kafka.topic.name" elementType="Argument">
@@ -149,6 +159,43 @@
           </elementProp>
           <stringProp name="classname">com.gslab.pepper.sampler.PepperBoxKafkaSampler</stringProp>
         </JavaSampler>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
         <hashTree/>
       </hashTree>
     </hashTree>
