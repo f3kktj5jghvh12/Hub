@@ -25,7 +25,7 @@
           </elementProp>
         </collectionProp>
       </elementProp>
-      <stringProp name="TestPlan.user_define_classpath">C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\apache-jmeter-5.5\lib\kafka-clients-3.2.0.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\apache-jmeter-5.5\lib\ext\pepper-box-1.0.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\apache-jmeter-5.5\lib\ext\jmeter-plugins-functions-2.1.jar</stringProp>
+      <stringProp name="TestPlan.user_define_classpath">C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\jmeter-plugins-functions-2.1.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\pepper-box-1.0.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\kafka-clients-3.2.0.jar</stringProp>
     </TestPlan>
     <hashTree>
       <com.gslab.pepper.config.plaintext.PlainTextConfigElement guiclass="TestBeanGUI" testclass="com.gslab.pepper.config.plaintext.PlainTextConfigElement" testname="Pepper-Box PlainText Config" enabled="true">
@@ -42,7 +42,7 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">10</stringProp>
+          <stringProp name="LoopController.loops">100</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">1</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
