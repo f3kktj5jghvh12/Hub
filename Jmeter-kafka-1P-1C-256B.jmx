@@ -42,7 +42,7 @@
         <stringProp name="jsonSchema">{
 	&quot;messageId&quot;:{{SEQUENCE(&quot;messageId&quot;,1,1)}},
 	&quot;messageBody&quot;:{{&quot;${__RandomString(${MESSAGE_LENGTH}, abc)}&quot;}},
-	&quot;messageTime&quot;:{{${TIMESTAMP()}}}
+	&quot;messageTime&quot;:{{TIMESTAMP()}}
 }</stringProp>
         <stringProp name="placeHolder">MESSAGE</stringProp>
       </com.gslab.pepper.config.plaintext.PlainTextConfigElement>
