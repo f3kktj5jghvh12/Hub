@@ -42,65 +42,11 @@
         <stringProp name="jsonSchema">{
 	&quot;messageId&quot;:{{SEQUENCE(&quot;messageId&quot;,1,1)}},
 	&quot;messageBody&quot;:{{&quot;${__RandomString(${MESSAGE_LENGTH}, abc)}&quot;}},
-	&quot;messageTime&quot;:{{${__time(dd/MM/yyyy,)}}}
+	&quot;messageTime&quot;:{{&quot;${__time(dd/MM/yyyy,)}&quot;}}
 }</stringProp>
         <stringProp name="placeHolder">MESSAGE</stringProp>
       </com.gslab.pepper.config.plaintext.PlainTextConfigElement>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Consumers" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
-        </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${USERS}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.delay"></stringProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
-      </ThreadGroup>
-      <hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Consumers" enabled="true">
-          <stringProp name="scriptLanguage">groovy</stringProp>
-          <stringProp name="parameters"></stringProp>
-          <stringProp name="filename"></stringProp>
-          <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="script">import org.apache.kafka.clients.consumer.*;
-import org.apache.kafka.clients.consumer.Consumer;
-import org.apache.kafka.common.serialization.LongDeserializer;
-import org.apache.kafka.common.serialization.StringDeserializer;
-
-import java.util.Collections;
-import java.util.Properties;
-
-String topic = vars.get(&quot;TOPIC&quot;);
-String bootstrap_Servers = vars.get(&quot;KAFKA_SERVER&quot;);
-int numUsers = Integer.valueOf(vars.get(&quot;USERS&quot;));
-int messageLength = Integer.valueOf(vars.get(&quot;MESSAGE_LENGTH&quot;));
-
-Properties props = new Properties();
-props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrap_Servers);
-props.put(ConsumerConfig.GROUP_ID_CONFIG,&quot;KafkaExampleConsumer&quot;);
-props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class.getName());
-props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-
-KafkaConsumer&lt;Long, String&gt; consumer = new KafkaConsumer&lt;&gt;(props);
-	
-consumer.subscribe(Arrays.asList(topic));
-
-ConsumerRecords&lt;Long, String&gt; consumerRecords = consumer.poll(1000);
-consumerRecords.forEach(record -&gt; {
-	System.out.printf(&quot;Consumer Record:(%d, %s, %d, %d)\n&quot;,
-		record.key(), record.value(),
-		record.partition(), record.offset());
-});
-consumer.commitAsync();
-consumer.close();
-System.out.println(&quot;DONE&quot;);</stringProp>
-        </JSR223Sampler>
-        <hashTree/>
-      </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Producer" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -212,6 +158,60 @@ System.out.println(&quot;DONE&quot;);</stringProp>
           </elementProp>
           <stringProp name="classname">com.gslab.pepper.sampler.PepperBoxKafkaSampler</stringProp>
         </JavaSampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Consumers" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${USERS}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Consumers" enabled="true">
+          <stringProp name="scriptLanguage">groovy</stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="script">import org.apache.kafka.clients.consumer.*;
+import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kafka.common.serialization.LongDeserializer;
+import org.apache.kafka.common.serialization.StringDeserializer;
+
+import java.util.Collections;
+import java.util.Properties;
+
+String topic = vars.get(&quot;TOPIC&quot;);
+String bootstrap_Servers = vars.get(&quot;KAFKA_SERVER&quot;);
+int numUsers = Integer.valueOf(vars.get(&quot;USERS&quot;));
+int messageLength = Integer.valueOf(vars.get(&quot;MESSAGE_LENGTH&quot;));
+
+Properties props = new Properties();
+props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrap_Servers);
+props.put(ConsumerConfig.GROUP_ID_CONFIG,&quot;KafkaExampleConsumer&quot;);
+props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class.getName());
+props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+
+KafkaConsumer&lt;Long, String&gt; consumer = new KafkaConsumer&lt;&gt;(props);
+	
+consumer.subscribe(Arrays.asList(topic));
+
+ConsumerRecords&lt;Long, String&gt; consumerRecords = consumer.poll(1000);
+consumerRecords.forEach(record -&gt; {
+	System.out.printf(&quot;Consumer Record:(%d, %s, %d, %d)\n&quot;,
+		record.key(), record.value(),
+		record.partition(), record.offset());
+});
+consumer.commitAsync();
+consumer.close();
+System.out.println(&quot;DONE&quot;);</stringProp>
+        </JSR223Sampler>
         <hashTree/>
       </hashTree>
       <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="true">
