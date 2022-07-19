@@ -66,8 +66,7 @@
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="script">package com.cloudurable.kafka;
-import org.apache.kafka.clients.consumer.*;
+          <stringProp name="script">import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -78,7 +77,7 @@ import java.util.Properties;
 String topic = vars.get(&quot;TOPIC&quot;);
 String bootstrap_Servers = vars.get(&quot;KAFKA_SERVER&quot;);
 int numUsers = Integer.valueOf(vars.get(&quot;USERS&quot;));
-int messageLength = Integer.valueOf(var.sget(&quot;MESSAGE_LENGTH&quot;));
+int messageLength = Integer.valueOf(vars.get(&quot;MESSAGE_LENGTH&quot;));
 
 Properties props = new Properties();
 props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrap_Servers);
