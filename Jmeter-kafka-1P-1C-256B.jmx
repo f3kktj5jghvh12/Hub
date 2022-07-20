@@ -15,7 +15,7 @@
           </elementProp>
           <elementProp name="ZOOKEEPER_SERVER" elementType="Argument">
             <stringProp name="Argument.name">ZOOKEEPER_SERVER</stringProp>
-            <stringProp name="Argument.value"> ${__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}:${__env(ZOOKEEPER_SERVICE_SERVICE_PORT)} </stringProp>
+            <stringProp name="Argument.value">192.168.178.66:2181</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="TOPIC" elementType="Argument">
@@ -25,7 +25,7 @@
           </elementProp>
           <elementProp name="KAFKA_SERVER" elementType="Argument">
             <stringProp name="Argument.name">KAFKA_SERVER</stringProp>
-            <stringProp name="Argument.value"> ${__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}:${__env(ZOOKEEPER_SERVICE_SERVICE_PORT)} </stringProp>
+            <stringProp name="Argument.value">192.168.178.66:9092</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="USERS" elementType="Argument">
@@ -39,7 +39,12 @@
     </TestPlan>
     <hashTree>
       <com.gslab.pepper.config.plaintext.PlainTextConfigElement guiclass="TestBeanGUI" testclass="com.gslab.pepper.config.plaintext.PlainTextConfigElement" testname="create message" enabled="true">
-        <stringProp name="jsonSchema">&quot;${__RandomString(${MESSAGE_LENGTH}, abc)}&quot;</stringProp>
+        <stringProp name="jsonSchema">{
+
+    &quot;messageId&quot;:{{SEQUENCE(&quot;messageId&quot;, 1, 1)}},
+    &quot;messageBody&quot;:{{&quot;${__RandomString(${MESSAGE_LENGTH}, abc)}&quot;}}
+    &quot;messageTime&quot;:{{TIMESTAMP()}}
+}</stringProp>
         <stringProp name="placeHolder">MESSAGE</stringProp>
       </com.gslab.pepper.config.plaintext.PlainTextConfigElement>
       <hashTree/>
@@ -156,7 +161,7 @@
         </JavaSampler>
         <hashTree/>
       </hashTree>
-      <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="true">
+      <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="false">
         <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
           <collectionProp name="Arguments.arguments">
             <elementProp name="influxdbMetricsSender" elementType="Argument">
