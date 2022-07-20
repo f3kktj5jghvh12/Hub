@@ -10,12 +10,12 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="MESSAGE_LENGTH" elementType="Argument">
             <stringProp name="Argument.name">MESSAGE_LENGTH</stringProp>
-            <stringProp name="Argument.value">256</stringProp>
+            <stringProp name="Argument.value">254</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="ZOOKEEPER_SERVER" elementType="Argument">
             <stringProp name="Argument.name">ZOOKEEPER_SERVER</stringProp>
-            <stringProp name="Argument.value">${__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}:${__env(ZOOKEEPER_SERVICE_SERVICE_PORT)}</stringProp>
+            <stringProp name="Argument.value"> ${__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}:${__env(ZOOKEEPER_SERVICE_SERVICE_PORT)} </stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="TOPIC" elementType="Argument">
@@ -25,7 +25,7 @@
           </elementProp>
           <elementProp name="KAFKA_SERVER" elementType="Argument">
             <stringProp name="Argument.name">KAFKA_SERVER</stringProp>
-            <stringProp name="Argument.value">${__env(KAFKA_SERVICE_SERVICE_HOST)}:${__env(KAFKA_SERVICE_SERVICE_PORT)}</stringProp>
+            <stringProp name="Argument.value"> ${__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}:${__env(ZOOKEEPER_SERVICE_SERVICE_PORT)} </stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="USERS" elementType="Argument">
@@ -39,11 +39,7 @@
     </TestPlan>
     <hashTree>
       <com.gslab.pepper.config.plaintext.PlainTextConfigElement guiclass="TestBeanGUI" testclass="com.gslab.pepper.config.plaintext.PlainTextConfigElement" testname="create message" enabled="true">
-        <stringProp name="jsonSchema">{
-	&quot;messageId&quot;:{{SEQUENCE(&quot;messageId&quot;,1,1)}},
-	&quot;messageBody&quot;:{{&quot;${__RandomString(${MESSAGE_LENGTH}, abc)}&quot;}},
-	&quot;messageTime&quot;:{{TIMESTAMP()}}
-}</stringProp>
+        <stringProp name="jsonSchema">&quot;${__RandomString(${MESSAGE_LENGTH}, abc)}&quot;</stringProp>
         <stringProp name="placeHolder">MESSAGE</stringProp>
       </com.gslab.pepper.config.plaintext.PlainTextConfigElement>
       <hashTree/>
@@ -160,90 +156,36 @@
         </JavaSampler>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Consumers" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
-        </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${USERS}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.delay"></stringProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
-      </ThreadGroup>
-      <hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Consumers" enabled="true">
-          <stringProp name="scriptLanguage">groovy</stringProp>
-          <stringProp name="parameters"></stringProp>
-          <stringProp name="filename"></stringProp>
-          <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="script">import org.apache.kafka.clients.consumer.*;
-import org.apache.kafka.clients.consumer.Consumer;
-import org.apache.kafka.common.serialization.LongDeserializer;
-import org.apache.kafka.common.serialization.StringDeserializer;
-
-import java.util.Collections;
-import java.util.Properties;
-
-String topic = vars.get(&quot;TOPIC&quot;);
-String bootstrap_Servers = vars.get(&quot;KAFKA_SERVER&quot;);
-int numUsers = Integer.valueOf(vars.get(&quot;USERS&quot;));
-int messageLength = Integer.valueOf(vars.get(&quot;MESSAGE_LENGTH&quot;));
-
-Properties props = new Properties();
-props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrap_Servers);
-props.put(ConsumerConfig.GROUP_ID_CONFIG,&quot;KafkaExampleConsumer&quot;);
-props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class.getName());
-props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-
-KafkaConsumer&lt;Long, String&gt; consumer = new KafkaConsumer&lt;&gt;(props);
-	
-consumer.subscribe(Arrays.asList(topic));
-
-ConsumerRecords&lt;Long, String&gt; consumerRecords = consumer.poll(1000);
-consumerRecords.forEach(record -&gt; {
-	System.out.printf(&quot;Consumer Record:(%d, %s, %d, %d)\n&quot;,
-		record.key(), record.value(),
-		record.partition(), record.offset());
-});
-consumer.commitAsync();
-consumer.close();
-System.out.println(&quot;DONE&quot;);</stringProp>
-        </JSR223Sampler>
-        <hashTree/>
-      </hashTree>
       <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="Backend Listener" enabled="true">
         <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
           <collectionProp name="Arguments.arguments">
-            <elementProp name="graphiteMetricsSender" elementType="Argument">
-              <stringProp name="Argument.name">graphiteMetricsSender</stringProp>
-              <stringProp name="Argument.value">org.apache.jmeter.visualizers.backend.graphite.TextGraphiteMetricsSender</stringProp>
+            <elementProp name="influxdbMetricsSender" elementType="Argument">
+              <stringProp name="Argument.name">influxdbMetricsSender</stringProp>
+              <stringProp name="Argument.value">org.apache.jmeter.visualizers.backend.influxdb.HttpMetricsSender</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
-            <elementProp name="graphiteHost" elementType="Argument">
-              <stringProp name="Argument.name">graphiteHost</stringProp>
-              <stringProp name="Argument.value">10.104.172.231</stringProp>
+            <elementProp name="influxdbUrl" elementType="Argument">
+              <stringProp name="Argument.name">influxdbUrl</stringProp>
+              <stringProp name="Argument.value">http://10.104.172.231:8086/write?db=jmeter</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
-            <elementProp name="graphitePort" elementType="Argument">
-              <stringProp name="Argument.name">graphitePort</stringProp>
-              <stringProp name="Argument.value">2003</stringProp>
+            <elementProp name="application" elementType="Argument">
+              <stringProp name="Argument.name">application</stringProp>
+              <stringProp name="Argument.value">Kafka</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
-            <elementProp name="rootMetricsPrefix" elementType="Argument">
-              <stringProp name="Argument.name">rootMetricsPrefix</stringProp>
-              <stringProp name="Argument.value">jmeter.</stringProp>
+            <elementProp name="measurement" elementType="Argument">
+              <stringProp name="Argument.name">measurement</stringProp>
+              <stringProp name="Argument.value">jmeter</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
             <elementProp name="summaryOnly" elementType="Argument">
               <stringProp name="Argument.name">summaryOnly</stringProp>
-              <stringProp name="Argument.value">true</stringProp>
+              <stringProp name="Argument.value">false</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
-            <elementProp name="samplersList" elementType="Argument">
-              <stringProp name="Argument.name">samplersList</stringProp>
+            <elementProp name="samplersRegex" elementType="Argument">
+              <stringProp name="Argument.name">samplersRegex</stringProp>
               <stringProp name="Argument.value">.*</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
@@ -252,9 +194,19 @@ System.out.println(&quot;DONE&quot;);</stringProp>
               <stringProp name="Argument.value">90;95;99</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
+            <elementProp name="testTitle" elementType="Argument">
+              <stringProp name="Argument.name">testTitle</stringProp>
+              <stringProp name="Argument.value">Test</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="eventTags" elementType="Argument">
+              <stringProp name="Argument.name">eventTags</stringProp>
+              <stringProp name="Argument.value"></stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
           </collectionProp>
         </elementProp>
-        <stringProp name="classname">org.apache.jmeter.visualizers.backend.graphite.GraphiteBackendListenerClient</stringProp>
+        <stringProp name="classname">org.apache.jmeter.visualizers.backend.influxdb.InfluxdbBackendListenerClient</stringProp>
       </BackendListener>
       <hashTree/>
     </hashTree>
