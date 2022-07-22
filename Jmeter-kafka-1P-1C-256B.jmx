@@ -43,11 +43,6 @@
             <stringProp name="Argument.value">10.104.172.231</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="STARTTIME" elementType="Argument">
-            <stringProp name="Argument.name">STARTTIME</stringProp>
-            <stringProp name="Argument.value">${TESTSTART.MS}</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
         </collectionProp>
       </elementProp>
       <stringProp name="TestPlan.user_define_classpath">C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\jmeter-plugins-cmn-jmeter-0.7.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\jmeter-plugins-functions-2.1.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\jmeter-plugins-manager-1.7.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\kafka-clients-3.2.0.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\pepper-box-1.0.jar</stringProp>
@@ -56,8 +51,7 @@
       <com.gslab.pepper.config.plaintext.PlainTextConfigElement guiclass="TestBeanGUI" testclass="com.gslab.pepper.config.plaintext.PlainTextConfigElement" testname="create message" enabled="true">
         <stringProp name="jsonSchema">{
     &quot;messageId&quot;:{{SEQUENCE(&quot;messageId&quot;, 1, 1)}},
-    &quot;messageBody&quot;:{{&quot;${__RandomString(${MESSAGE_LENGTH}, abc)}&quot;}},
-    &quot;messageTime&quot;:{{TIMESTAMP()}}
+    &quot;messageBody&quot;:{{&quot;${__RandomString(${MESSAGE_LENGTH}, abc)}&quot;}}
 }</stringProp>
         <stringProp name="placeHolder">MESSAGE</stringProp>
       </com.gslab.pepper.config.plaintext.PlainTextConfigElement>
@@ -226,7 +220,6 @@ while(System.currentTimeMillis()&lt;end) {
 	ConsumerRecords&lt;String, String&gt; records = consumer.poll(1000);
 	for(ConsumerRecord&lt;String, String&gt; record:records) {
 		System.out.printf(&quot;offset = %d, key = %s, value = %s\n&quot;,record.offset(),record.key(),record.value());
-		System.out.printf((${TESTSTART.MS} - ${__time()}));
 	}
 	consumer.commitSync();
 }
