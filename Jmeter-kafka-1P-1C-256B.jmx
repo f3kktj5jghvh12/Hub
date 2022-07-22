@@ -49,10 +49,7 @@
     </TestPlan>
     <hashTree>
       <com.gslab.pepper.config.plaintext.PlainTextConfigElement guiclass="TestBeanGUI" testclass="com.gslab.pepper.config.plaintext.PlainTextConfigElement" testname="create message" enabled="true">
-        <stringProp name="jsonSchema">{
-    &quot;messageId&quot;:{{SEQUENCE(&quot;messageId&quot;, 1, 1)}},
-    &quot;messageBody&quot;:{{&quot;${__RandomString(${MESSAGE_LENGTH}, abc)}&quot;}}
-}</stringProp>
+        <stringProp name="jsonSchema">&quot;${__RandomString(${MESSAGE_LENGTH}, abc)}&quot;</stringProp>
         <stringProp name="placeHolder">MESSAGE</stringProp>
       </com.gslab.pepper.config.plaintext.PlainTextConfigElement>
       <hashTree/>
