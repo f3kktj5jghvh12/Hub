@@ -10,7 +10,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="MESSAGE_LENGTH" elementType="Argument">
             <stringProp name="Argument.name">MESSAGE_LENGTH</stringProp>
-            <stringProp name="Argument.value">177</stringProp>
+            <stringProp name="Argument.value">256</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="ZOOKEEPER_SERVER" elementType="Argument">
@@ -25,7 +25,7 @@
           </elementProp>
           <elementProp name="KAFKA_SERVER" elementType="Argument">
             <stringProp name="Argument.name">KAFKA_SERVER</stringProp>
-            <stringProp name="Argument.value">${__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}:${__env(ZOOKEEPER_SERVICE_SERVICE_PORT)}</stringProp>
+            <stringProp name="Argument.value">${__env(KAFKA_SERVICE_SERVICE_HOST)}:${__env(KAFKA_SERVICE_SERVICE_PORT)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="USERS" elementType="Argument">
