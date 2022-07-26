@@ -211,17 +211,20 @@ System.out.println(&quot;Subscribed to topic &quot;+topic);
 
 int emptyCount =0;
 while(true) {
-	ConsumerRecords&lt;String, String&gt; records = consumer.poll(1000);
-	if (records.empty()) {
+	ConsumerRecords&lt;String, String&gt; records = consumer.poll(100);
+	if (records.isEmpty()) {
 		emptyCount++;
+		System.out.printf(emptyCount)
 		if(emptyCount &gt;= 100) {
 			break;	
 		}
 		continue
 	}
 	emptyCount = 0;
-	for(ConsumerRecord&lt;String, String&gt; record:records) {
-		System.out.printf(&quot;offset = %d, key = %s, value = %s\n&quot;,record.offset(),record.key(),record.value());
+	records.each { record -&gt;
+		System.out.printf(&apos;Received message: &apos; + record.value())
+///	for(ConsumerRecord&lt;String, String&gt; record:records) {
+///		System.out.printf(&quot;offset = %d, key = %s, value = %s\n&quot;,record.offset(),record.key(),record.value());
 	}
 	consumer.commitSync();
 }
