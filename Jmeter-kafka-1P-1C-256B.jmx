@@ -93,7 +93,7 @@ for (int i = 1; i &lt;= numUsers; i++) {
 	
 	KafkaConsumer&lt;String, String&gt; consumer = new KafkaConsumer&lt;String, String&gt;(props); 
 	consumer.subscribe(Arrays.asList(topic));
-	consumer.poll(Duration.ofMillis(100));
+	System.out.printf(&quot;subscribed to &quot;+topic);
 
 	props.put(&quot;consumer-&quot;+String.valueOf(i), consumer);
 }</stringProp>
@@ -244,6 +244,7 @@ int emptyCount = 0;
 
 while(true) {
 	ConsumerRecords&lt;String, String&gt; records = consumer.poll(1000);
+	System.out.printf(&quot;polled for records &quot; + records.empty());
 	if (records.empty()) {
 		emptyCount++;
 		if(emptyCount &gt;= 100) {
