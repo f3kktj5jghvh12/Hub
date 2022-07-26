@@ -130,6 +130,7 @@ KafkaConsumer &lt;String, String&gt; consumer = props.get(&quot;consumer-&quot;+
 int emptyCount = 0;
 
 while(true) {
+	System.out.printf(&quot;pre-record pull&quot;);
 	ConsumerRecords&lt;String, String&gt; records = consumer.poll(1000);
 	System.out.printf(&quot;polled for records &quot; + records.empty());
 	if (records.empty()) {
