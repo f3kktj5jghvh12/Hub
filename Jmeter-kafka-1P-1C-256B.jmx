@@ -211,10 +211,10 @@ System.out.println(&quot;Subscribed to topic &quot;+topic);
 
 int emptyCount =0;
 while(true) {
-	ConsumerRecords&lt;String, String&gt; records = consumer.poll(100);
+	ConsumerRecords&lt;String, String&gt; records = consumer.poll(5000);
 	if (records.empty()) {
 		emptyCount++;
-		System.out.printf(emptyCount)
+		System.out.printf(&quot;1&quot;)
 		if(emptyCount &gt;= 100) {
 			break;	
 		}
@@ -226,7 +226,8 @@ while(true) {
 	}
 	consumer.commitSync();
 }
-consumer.close()</stringProp>
+consumer.close();
+</stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223Sampler>
         <hashTree/>
