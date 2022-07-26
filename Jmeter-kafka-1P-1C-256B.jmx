@@ -221,10 +221,8 @@ while(true) {
 		continue
 	}
 	emptyCount = 0;
-	records.each { record -&gt;
-		log.info(&apos;Received message: &apos; + record.value())
-///	for(ConsumerRecord&lt;String, String&gt; record:records) {
-///		System.out.printf(&quot;offset = %d, key = %s, value = %s\n&quot;,record.offset(),record.key(),record.value());
+	for(ConsumerRecord&lt;String, String&gt; record:records) {
+		System.out.printf(&quot;offset = %d, key = %s, value = %s\n&quot;,record.offset(),record.key(),record.value());
 	}
 	consumer.commitSync();
 }
