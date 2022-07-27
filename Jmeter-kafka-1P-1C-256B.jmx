@@ -5,7 +5,7 @@
       <stringProp name="TestPlan.comments"></stringProp>
       <boolProp name="TestPlan.functional_mode">false</boolProp>
       <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
-      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="MESSAGE_LENGTH" elementType="Argument">
@@ -15,7 +15,7 @@
           </elementProp>
           <elementProp name="ZOOKEEPER_SERVER" elementType="Argument">
             <stringProp name="Argument.name">ZOOKEEPER_SERVER</stringProp>
-            <stringProp name="Argument.value">{__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}:${__env(ZOOKEEPER_SERVICE_SERVICE_PORT)}</stringProp>
+            <stringProp name="Argument.value"> ${__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}:${__env(ZOOKEEPER_SERVICE_SERVICE_PORT)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="TOPIC" elementType="Argument">
@@ -43,6 +43,11 @@
             <stringProp name="Argument.value">10.104.172.231</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="STARTTIME" elementType="Argument">
+            <stringProp name="Argument.name">STARTTIME</stringProp>
+            <stringProp name="Argument.value">${__time()}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </elementProp>
       <stringProp name="TestPlan.user_define_classpath">C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\jmeter-plugins-cmn-jmeter-0.7.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\jmeter-plugins-functions-2.1.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\jmeter-plugins-manager-1.7.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\kafka-clients-3.2.0.jar,C:\Users\Richard\Documents\School\AfstudeerStage\jmeter\pepper-box-1.0.jar</stringProp>
@@ -53,103 +58,6 @@
         <stringProp name="placeHolder">MESSAGE</stringProp>
       </com.gslab.pepper.config.plaintext.PlainTextConfigElement>
       <hashTree/>
-      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="Setup Consumers" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
-        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
-        </elementProp>
-        <stringProp name="ThreadGroup.num_threads">1</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.delay"></stringProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
-      </SetupThreadGroup>
-      <hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Create + Subscribe" enabled="true">
-          <stringProp name="scriptLanguage">groovy</stringProp>
-          <stringProp name="parameters"></stringProp>
-          <stringProp name="filename"></stringProp>
-          <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="script">import org.apache.kafka.clients.consumer.KafkaConsumer;
-import java.time.Duration;
-
-String brokers = vars.get(&quot;KAFKA_SERVER&quot;);
-String topic = vars.get(&quot;TOPIC&quot;);
-int numUsers = Integer.valueOf(vars.get(&quot;USERS&quot;));
-
-Properties props=new Properties();
-props.put(&quot;bootstrap.servers&quot;,brokers);
-props.put(&quot;enable.auto.commit&quot;,&quot;true&quot;);
-props.put(&quot;auto.commit.interval.ms&quot;,&quot;1000&quot;);
-props.put(&quot;session.timeout.ms&quot;,&quot;30000&quot;);
-props.put(&quot;key.deserializer&quot;,&quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);
-props.put(&quot;value.deserializer&quot;,&quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);
-
-for (int i = 1; i &lt;= numUsers; i++) {
-	props.setProperty(&quot;group.id&quot;, &quot;user-&quot; + String.valueOf(i));
-	props.setProperty(&quot;client.id&quot;, &quot;consumer-client-&quot;+String.valueOf(i));
-	
-	KafkaConsumer&lt;String, String&gt; consumer = new KafkaConsumer&lt;String, String&gt;(props); 
-	consumer.subscribe(Arrays.asList(topic));
-	System.out.printf(&quot;subscribed to &quot;+topic);
-
-	props.put(&quot;consumer-&quot;+String.valueOf(i), consumer);
-}</stringProp>
-        </JSR223Sampler>
-        <hashTree/>
-      </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Consumer" enabled="true">
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
-          <boolProp name="LoopController.continue_forever">false</boolProp>
-          <intProp name="LoopController.loops">-1</intProp>
-        </elementProp>
-        <stringProp name="ThreadGroup.num_threads">${USERS}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
-        <boolProp name="ThreadGroup.scheduler">false</boolProp>
-        <stringProp name="ThreadGroup.duration"></stringProp>
-        <stringProp name="ThreadGroup.delay"></stringProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
-      </ThreadGroup>
-      <hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Consume Message" enabled="true">
-          <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="filename"></stringProp>
-          <stringProp name="parameters"></stringProp>
-          <stringProp name="script">import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
-
-KafkaConsumer &lt;String, String&gt; consumer = props.get(&quot;consumer-&quot;+user);
-
-int emptyCount = 0;
-
-while(true) {
-	System.out.printf(&quot;pre-record pull&quot;);
-	ConsumerRecords&lt;String, String&gt; records = consumer.poll(1000);
-	System.out.printf(&quot;polled for records &quot; + records.empty());
-	if (records.empty()) {
-		emptyCount++;
-		if(emptyCount &gt;= 100) {
-			break;	
-		}
-		continue;
-	}
-	emptyCount = 0;
-	for(ConsumerRecord&lt;String, String&gt; record : records) {
-		System.out.printf(&quot;offset = %d, key = %s, value = %s\n&quot;,record.offset(),record.key(),record.value());
-	}
-	consumer.commitASync();
-}</stringProp>
-          <stringProp name="scriptLanguage">groovy</stringProp>
-        </JSR223Sampler>
-        <hashTree/>
-      </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Producer" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -159,7 +67,7 @@ while(true) {
         <stringProp name="ThreadGroup.num_threads">${USERS}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
-        <stringProp name="ThreadGroup.duration">60</stringProp>
+        <stringProp name="ThreadGroup.duration">5</stringProp>
         <stringProp name="ThreadGroup.delay">0</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
@@ -263,7 +171,7 @@ while(true) {
         </JavaSampler>
         <hashTree/>
       </hashTree>
-      <PostThreadGroup guiclass="PostThreadGroupGui" testclass="PostThreadGroup" testname="Remove Consumers" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="setup consumers" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -275,21 +183,59 @@ while(true) {
         <stringProp name="ThreadGroup.duration"></stringProp>
         <stringProp name="ThreadGroup.delay"></stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
-      </PostThreadGroup>
+      </ThreadGroup>
       <hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="JSR223 Sampler" enabled="true">
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Create + Subscribe" enabled="true">
           <stringProp name="scriptLanguage">groovy</stringProp>
           <stringProp name="parameters"></stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="script">import org.apache.kafka.clients.consumer.KafkaConsumer;
+import java.time.Duration;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import java.util.concurrent.TimeUnit;
 
+
+String brokers = vars.get(&quot;KAFKA_SERVER&quot;);
+String topic = vars.get(&quot;TOPIC&quot;);
 int numUsers = Integer.valueOf(vars.get(&quot;USERS&quot;));
 
-for (int i = 1; i &lt;= numUsers; i++) {
-	KafkaConsumer&lt;String,String&gt; consumer = (KafkaConsumer)props.remove(&quot;consumer-&quot;+String.valueOf(i));
-	consumer.close();
-}</stringProp>
+Properties props=new Properties();
+props.put(&quot;bootstrap.servers&quot;,brokers);
+props.put(&quot;enable.auto.commit&quot;,&quot;true&quot;);
+props.put(&quot;auto.commit.interval.ms&quot;,&quot;1000&quot;);
+props.put(&quot;session.timeout.ms&quot;,&quot;30000&quot;);
+props.put(&quot;key.deserializer&quot;,&quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);
+props.put(&quot;value.deserializer&quot;,&quot;org.apache.kafka.common.serialization.StringDeserializer&quot;);
+props.put(&quot;group.id&quot;, &quot;user-&quot; + String.valueOf(2));
+props.put(&quot;client.id&quot;, &quot;consumer-client-&quot;+String.valueOf(2));
+
+KafkaConsumer&lt;String, String&gt; consumer = new KafkaConsumer&lt;String, String&gt;(props); 
+consumer.subscribe(Arrays.asList(topic));
+System.out.println(&quot;subscribed to &quot; + topic);
+
+int emptyCount = 0;
+
+while(true) {
+	ConsumerRecords&lt;String, String&gt; records = consumer.poll(Duration.ofMillis(150));
+	if (records.isEmpty()) {
+		System.out.println(&quot;polled for record isEmpty &quot; + emptyCount);
+		emptyCount++;
+		if(emptyCount &gt;= 100) {
+			break;	
+		}
+		continue;
+	}
+	emptyCount = 0;
+	for(ConsumerRecord&lt;String, String&gt; record : records) {
+		System.out.printf(&quot;offset = %d, key = %s, value = %s\n&quot;,record.offset(),record.key(),record.value());
+	}
+	consumer.commitSync();
+}
+System.out.println(&quot;Closing consumer&quot;)
+consumer.close();</stringProp>
         </JSR223Sampler>
         <hashTree/>
       </hashTree>
@@ -345,6 +291,66 @@ for (int i = 1; i &lt;= numUsers; i++) {
         </elementProp>
         <stringProp name="classname">org.apache.jmeter.visualizers.backend.influxdb.InfluxdbBackendListenerClient</stringProp>
       </BackendListener>
+      <hashTree/>
+      <JSR223Listener guiclass="TestBeanGUI" testclass="JSR223Listener" testname="send times to influxdb" enabled="true">
+        <stringProp name="cacheKey">true</stringProp>
+        <stringProp name="filename"></stringProp>
+        <stringProp name="parameters"></stringProp>
+        <stringProp name="script">import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.util.EntityUtils;
+
+long starttime = Long.valueOf(vars.get(&quot;STARTTIME&quot;))
+long totaltime = (${__time()} - starttime);
+System.out.println(&quot;starttime = &quot; + starttime)
+System.out.println(&quot;totaltime = &quot; + totaltime);
+
+result = new StringBuilder();
+
+status = &quot;Failure&quot;;
+if (sampleResult.isSuccessful())
+    status = &quot;Success&quot;;
+
+//Expected format to post the result
+//samples,label=lbl,status=status count=count,duration=duration,responsecode=rc timestamp
+
+result.append(&quot;totaltime,&quot;) //samples is the table name in InfluxDB which we will create at run time.
+    .append(&quot;starttime=&quot;)
+    .append(totaltime);
+
+//Escape the string values before posting the data
+
+String escapeValue(String val) {
+
+    val = val.replaceAll(&quot;,&quot;, &quot;\\\\,&quot;)
+        .replaceAll(&quot; &quot;, &quot;\\\\ &quot;)
+        .replaceAll(&quot;=&quot;, &quot;\\\\=&quot;)
+        .trim();
+
+    return val;
+}
+
+void PostMeasurement(String metric) {
+
+    def httpclient = new DefaultHttpClient(new BasicHttpParams());
+    def httpPost = new HttpPost();
+
+    //URL format : http://[ipaddress]:[port]/write?db=[database]
+
+    httpPost.setURI(new URI(&quot;http://${INFLUXDB_HOST}:8086/write?db=jmeter&quot;));
+    log.info(&quot;Result : &quot; + metric);
+    httpPost.setEntity(new StringEntity(metric));
+    HttpResponse response = httpclient.execute(httpPost);
+    EntityUtils.consumeQuietly(response.getEntity());
+
+}
+PostMeasurement(result.toString());
+</stringProp>
+        <stringProp name="scriptLanguage">groovy</stringProp>
+      </JSR223Listener>
       <hashTree/>
     </hashTree>
   </hashTree>
