@@ -15,7 +15,7 @@
           </elementProp>
           <elementProp name="ZOOKEEPER_SERVER" elementType="Argument">
             <stringProp name="Argument.name">ZOOKEEPER_SERVER</stringProp>
-            <stringProp name="Argument.value">10.0.4.133:2181</stringProp>
+            <stringProp name="Argument.value">${__env(ZOOKEEPER_SERVICE_SERVICE_HOST)}:${__env(ZOOKEEPER_SERVICE_SERVICE_PORT)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="TOPIC" elementType="Argument">
@@ -25,7 +25,7 @@
           </elementProp>
           <elementProp name="KAFKA_SERVER" elementType="Argument">
             <stringProp name="Argument.name">KAFKA_SERVER</stringProp>
-            <stringProp name="Argument.value">10.0.4.133:9092</stringProp>
+            <stringProp name="Argument.value">${__env(KAFKA_SERVICE_SERVICE_HOST)}:${__env(KAFKA_SERVICE_SERVICE_PORT)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="USERS" elementType="Argument">
@@ -62,7 +62,7 @@
         <stringProp name="ThreadGroup.num_threads">${USERS}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
         <boolProp name="ThreadGroup.scheduler">true</boolProp>
-        <stringProp name="ThreadGroup.duration">10</stringProp>
+        <stringProp name="ThreadGroup.duration">60</stringProp>
         <stringProp name="ThreadGroup.delay">0</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
       </ThreadGroup>
